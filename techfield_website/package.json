@@ -8,10 +8,17 @@
     "start": "next start"
   },
   "dependencies": {
+    "@types/three": "^0.180.0",
+    "gray-matter": "^4.0.3",
     "hamburger-react": "^2.5.2",
+    "lucide-react": "^0.546.0",
     "next": "15.5.4",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "reading-time": "^1.5.0",
+    "tailwind-merge": "^3.3.1",
+    "three": "^0.180.0",
+    "vanta": "^0.5.24"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

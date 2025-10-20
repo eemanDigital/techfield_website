@@ -1,8 +1,6 @@
 import Header from "./component/header";
 import localFont from "next/font/local";
-
 import "./globals.css";
-// import { robotoCondensed } from "./utils/font";
 
 export const metadata = {
   title: "Techfield Law",
@@ -16,7 +14,7 @@ const myFont = localFont({
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${myFont.variable} antialiased`}>
+      <body className={`${myFont.className} antialiased`}>
         <Header />
         {children}
       </body>

@@ -3,25 +3,20 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-}
-layer base {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  /* --font-roboto: var(--roboto-condensed); */
-  /* --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono); */
-  --color-primary: #990100;
-  --color-secondary: #113167;
-  --color-info: #990100;
-  --color-gradient: linear-gradient(90deg, #02807e 0%, #113167 100%);
-  --color-primary-hover: #02808e;
+
+  /* --color-primary-hover: #02808e; */
   --breakpoint-lg: 1200px;
 }
 
-/* 
+/* Define theme extensions */
 @theme {
-  --color-bg-red: #c71212;
-} */
+  --color-primary-hover: #02808e;
+  /* --color-secondary: "#ffff" */
+  --color-secondary: #0a0a0a;
+  --color-primary: #990100;
+
+  --color-gradient: linear-gradient(90deg, #990100 0%, #930100 100%);
+}
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -30,30 +25,18 @@ layer base {
   }
 }
 
+/* Global styles */
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--roboto-condensed);
+  font-family: "Roboto Condensed", sans-serif;
   height: 100vh;
   overflow-x: hidden;
-
-  /* font-family: Arial, Helvetica, sans-serif; */
 }
 
-.banner {
-  background: url("../../public/images/banner2.png");
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  width: 100%;
-  height: 100%;
-}
-
-/* Responsive nav */
-
+/* Responsive navigation */
 .nav {
   display: flex;
   flex-direction: column;
-  /* margin-top: 4rem; */
   background-color: #0a0a0a;
 }

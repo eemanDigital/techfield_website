@@ -4,39 +4,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Button from "../buttons/button";
 import { icons } from "@/app/icons/icon";
-
-const TEXTS = [
-  { id: 1, content: "Protecting Your Rights with Integrity and Precision" },
-  { id: 2, content: "Your Legal Partner in Business and Beyond." },
-  { id: 3, content: "Results-Driven Representation. Every Time" },
-  { id: 4, content: "Excellence in Advocacy. Commitment to Justice." },
-  { id: 5, content: "Navigating Legal Complexities with Confidence." },
-  { id: 6, content: "Strategic Legal Counsel for Modern Challenges." },
-];
-
-// Define a set of unique animations
-const animations = [
-  {
-    initial: { opacity: 0, x: -100 },
-    animate: { opacity: 1, x: 0 },
-    exit: { opacity: 0, x: 100 },
-  },
-  {
-    initial: { opacity: 0, scale: 0.5 },
-    animate: { opacity: 1, scale: 1 },
-    exit: { opacity: 0, scale: 0.5 },
-  },
-  {
-    initial: { opacity: 0, y: 50 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -50 },
-  },
-  {
-    initial: { opacity: 0, rotate: -10 },
-    animate: { opacity: 1, rotate: 0 },
-    exit: { opacity: 0, rotate: 10 },
-  },
-];
+import TEXTS from "./texts";
+import TechBackground from "../techBackground";
+import animations from "./carouselAnimation";
 
 const features = [
   "Highly Personalized Service",
@@ -44,7 +14,7 @@ const features = [
   "Proven Track Record of Success",
 ];
 
-const TextCarousel = () => {
+export default function TextCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
   const intervalRef = useRef(null);
 
@@ -53,51 +23,76 @@ const TextCarousel = () => {
   }, []);
 
   useEffect(() => {
-    intervalRef.current = setInterval(nextSlide, 7000);
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
+    intervalRef.current = setInterval(nextSlide, 10000);
+    return () => clearInterval(intervalRef.current);
   }, [nextSlide]);
 
   const currentText = TEXTS[activeIndex];
-  const currentAnimation = animations[activeIndex % animations.length];
+  const animation = animations[Math.floor(Math.random() * animations.length)];
 
   return (
-    <div className=" absolute top-35 md:top-34 right-5 md:right-0 flex flex-col   sm:px-3 px-5  max-w-2xl">
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentText.id}
-          initial={currentAnimation.initial}
-          animate={currentAnimation.animate}
-          exit={currentAnimation.exit}
-          transition={{ duration: 1, ease: "easeInOut" }}
-          className=" md:h-[228px] h-[150px]">
-          <h1 className="  text-4xl md:text-6xl font-semibold bg-gradient-to-tl  from-blue-400 to-white bg-clip-text text-transparent  ">
+    <div className="relative h-screen w-full overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+      {/* Subtle animated background */}
+      <TechBackground />
+
+      {/* Text Section */}
+      <div className="absolute   top-1/3 left-6 md:left-16 z-10 max-w-3xl">
+        <AnimatePresence mode="wait">
+          <motion.h1
+            key={currentText.id}
+            initial={animation.initial}
+            animate={animation.animate}
+            exit={animation.exit}
+            transition={{ duration: 1, ease: "easeInOut" }}
+            className="text-3xl md:text-5xl h-[188px] font-extrabold text-white leading-tight tracking-tight">
             {currentText.content}
-          </h1>
+          </motion.h1>
+        </AnimatePresence>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.8 }}
+          className="mt-6">
+          <Button
+            text="Free Consultation"
+            bg="bg-white text-red-900 font-bold hover:bg-gray-200"
+            path="contact"
+            link={true}
+          />
         </motion.div>
-      </AnimatePresence>
 
-      <Button
-        text="Free Consultation"
-        bg="bg-info"
-        icon=""
-        path="contact"
-        link={true}
-      />
+        {/* <div className="mt-8 text-white/90 tracking-wider space-y-2">
+          {features.map((feature, i) => (
+            <motion.p
+              key={i}
+              initial={{ opacity: 0, x: -15 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.8 + i * 0.15, duration: 0.6 }}
+              className="flex items-center gap-1 text-sm md:text-base">
+              <span className="bg-primary p-1 rounded-full flex items-center justify-center">
+                {icons.check}
+              </span>
+              {feature}
+            </motion.p>
+          ))}
+        </div> */}
+      </div>
 
-      <div className=" text-white tracking-widest mt-5">
-        {features.map((feature, index) => (
-          <p key={index} className="flex items-center gap-2">
-            <span className="bg-primary p-1 rounded-full flex items-center justify-center">
-              {icons.check}
-            </span>
-            <span>{feature}</span>
-          </p>
+      {/* Dots Navigation */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-3 z-10">
+        {TEXTS.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setActiveIndex(index)}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              index === activeIndex
+                ? "bg-white scale-125"
+                : "bg-white/40 hover:bg-white/60"
+            }`}
+          />
         ))}
       </div>
     </div>
   );
-};
-
-export default TextCarousel;
+}
