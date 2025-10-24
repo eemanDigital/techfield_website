@@ -3,13 +3,11 @@ import path from "path";
 import matter from "gray-matter";
 import readingTime from "reading-time";
 
-const postsDirectory = path.join(process.cwd(), "content/blog");
+const postsDirectory = path.join(process.cwd(), "src/content/blog");
 
 // Get all blog posts
 export function getAllPosts() {
   const fileNames = fs.readdirSync(postsDirectory);
-
-  console.log(fileNames);
 
   const allPosts = fileNames
     .filter((fileName) => fileName.endsWith(".mdx"))

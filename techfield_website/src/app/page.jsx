@@ -1,7 +1,12 @@
+import { getAllPosts } from "@/lib/allPost";
 import About from "./about-us/page";
 import PracticeAreas from "./area-of-practice/page";
 import BlogPage from "./blog/page";
 import TextCarousel from "./component/carousel/textCarousel";
+import TeamSection from "./our-team/page";
+import Footer from "./footer/page";
+
+const blogPosts = getAllPosts();
 
 const Page = () => {
   return (
@@ -11,8 +16,10 @@ const Page = () => {
       <div className="container mx-auto px-4 py-16">
         <p className="text-lg leading-relaxed text-primary-hover">
           <About />
+
           <PracticeAreas />
-          <BlogPage />
+          <TeamSection />
+          <BlogPage blogPosts={blogPosts} />
         </p>
       </div>
     </main>

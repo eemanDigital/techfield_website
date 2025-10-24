@@ -4,7 +4,7 @@ import matter from "gray-matter";
 import readingTime from "reading-time";
 
 export function getPostBySlug(slug) {
-  const postDirectory = path.join(process.cwd(), "content/blog");
+  const postDirectory = path.join(process.cwd(), "src/content/blog");
 
   try {
     const fullPath = path.join(postDirectory, `${slug}.mdx`);

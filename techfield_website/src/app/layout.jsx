@@ -1,6 +1,7 @@
 import Header from "./component/header";
 import localFont from "next/font/local";
 import "./globals.css";
+import Footer from "./footer/page";
 
 export const metadata = {
   title: "Techfield Law",
@@ -17,6 +18,7 @@ export default function RootLayout({ children }) {
       <body className={`${myFont.className} antialiased`}>
         <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );

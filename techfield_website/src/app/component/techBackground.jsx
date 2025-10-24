@@ -32,20 +32,19 @@ export default function TechBackground() {
 
         vantaEffect.current = VANTA.default({
           el: vantaRef.current,
-          THREE: THREE,
-          color: 0x990100,
-          backgroundColor: 0x0a0a0a,
-          points: 6.0,
-          maxDistance: 20.0,
-          spacing: 18.0,
-          showDots: false,
-          mouseControls: false,
-          touchControls: false,
-          gyroControls: false,
-          minHeight: 200.0,
-          minWidth: 200.0,
+          THREE,
+          mouseControls: true,
+          touchControls: true,
+          minHeight: 100.0,
+          minWidth: 100.0,
           scale: 1.0,
           scaleMobile: 1.0,
+          color: 0xff1a1a, // soft red glow
+          backgroundColor: 0x0a0a0a, // dark background
+          points: 4.0, // fewer points for cleaner look
+          maxDistance: 10.0,
+          spacing: 7.0,
+          showDots: false, // hide dots for a sleek wire-only style
         });
       } catch (error) {
         console.error("Vanta loading error:", error);

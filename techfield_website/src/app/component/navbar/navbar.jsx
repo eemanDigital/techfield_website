@@ -1,230 +1,368 @@
 "use client";
-import Link from "next/link";
-import { Twirl as Hamburger } from "hamburger-react";
-import { icons } from "@/app/icons/icon";
-import useScroll from "@/app/hooks/useScroll";
 import { useEffect, useState } from "react";
-import { Logo } from "../logo";
-import Button from "../buttons/button";
+import {
+  Scale,
+  Phone,
+  Mail,
+  Menu,
+  X,
+  ChevronDown,
+  ChevronRight,
+} from "lucide-react";
 
-const NavBar = ({ menu }) => {
-  const { isScrolled } = useScroll();
-  const [isDesktop, setIsDesktop] = useState(false);
-  const [isMobileOpenMenu, setIsMobileOpenMenu] = useState(false);
-  const [activeSubMenu, setActiveSubMenu] = useState(null);
+const menuItems = [
+  {
+    title: "Home",
+    path: "/",
+  },
+  {
+    title: "Practice Areas",
+    path: "/practice-areas",
+    submenu: [
+      { title: "Corporate Law", subpath: "/practice-areas/corporate" },
+      { title: "Litigation", subpath: "/practice-areas/litigation" },
+      { title: "Intellectual Property", subpath: "/practice-areas/ip" },
+      { title: "Employment Law", subpath: "/practice-areas/employment" },
+      { title: "Real Estate", subpath: "/practice-areas/real-estate" },
+      { title: "Tax Law", subpath: "/practice-areas/tax" },
+    ],
+  },
+  {
+    title: "Our Team",
+    path: "/team",
+  },
+  {
+    title: "About Us",
+    path: "/about",
+  },
+  {
+    title: "Resources",
+    path: "/resources",
+    submenu: [
+      { title: "Blog & Insights", subpath: "/blog" },
+      { title: "Case Studies", subpath: "/case-studies" },
+      { title: "Legal Resources", subpath: "/resources" },
+      { title: "FAQ", subpath: "/faq" },
+    ],
+  },
+  {
+    title: "Contact",
+    path: "/contact",
+  },
+];
+
+export default function NavBar() {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeSubmenu, setActiveSubmenu] = useState(null);
+  const [hoveredItem, setHoveredItem] = useState(null);
+
   const phoneNumber = "+234-806-723-4189";
 
   useEffect(() => {
-    const handleResize = () => {
-      const isNowDesktop = window.innerWidth >= 1200;
-      setIsDesktop(isNowDesktop);
-      if (isNowDesktop) {
-        setIsMobileOpenMenu(false);
-        setActiveSubMenu(null);
-      }
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
     };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleSubMenuToggle = (index) => {
-    setActiveSubMenu(activeSubMenu === index ? null : index);
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [isMobileMenuOpen]);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+    setActiveSubmenu(null);
   };
 
-  const handleLinkClick = () => {
-    setIsMobileOpenMenu(false);
-    setActiveSubMenu(null);
+  const toggleSubmenu = (index) => {
+    setActiveSubmenu(activeSubmenu === index ? null : index);
   };
 
   return (
-    <nav
-      role="navigation"
-      className={`fixed top-0 z-50 transition-all duration-300 w-full flex justify-between items-center gap-3 h-20 ${
-        isScrolled || isMobileOpenMenu
-          ? "bg-white bg-opacity-95 shadow-md"
-          : "bg-transparent"
-      }`}>
-      {/* Desktop Nav */}
-      <ul
-        role="menubar"
-        className={`hidden lg:flex items-center space-x-5 w-full ${
-          isScrolled ? "text-primary" : "text-white"
+    <>
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled
+            ? "bg-white shadow-lg"
+            : "bg-gradient-to-r from-[#990100]/95 via-[#b30000]/95 to-[#990100]/95 backdrop-blur-sm"
         }`}>
-        <Logo style="" color={`${isScrolled ? "text-info" : "text-white"}`} />
+        {/* Top bar - Contact info (Desktop only) */}
+        <div
+          className={`hidden lg:block border-b transition-colors duration-300 ${
+            isScrolled
+              ? "border-gray-200 bg-gray-50"
+              : "border-white/10 bg-black/10"
+          }`}>
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="flex justify-between items-center h-10 text-sm">
+              <div className="flex items-center gap-6">
+                <a
+                  href={`tel:${phoneNumber}`}
+                  className={`flex items-center gap-2 transition-colors duration-300 ${
+                    isScrolled
+                      ? "text-gray-600 hover:text-[#990100]"
+                      : "text-white/90 hover:text-white"
+                  }`}>
+                  <Phone className="w-3.5 h-3.5" />
+                  <span className="font-medium">{phoneNumber}</span>
+                </a>
+                <a
+                  href="mailto:info@legaltech.com"
+                  className={`flex items-center gap-2 transition-colors duration-300 ${
+                    isScrolled
+                      ? "text-gray-600 hover:text-[#990100]"
+                      : "text-white/90 hover:text-white"
+                  }`}>
+                  <Mail className="w-3.5 h-3.5" />
+                  <span>info@legaltech.com</span>
+                </a>
+              </div>
+              <div
+                className={`text-xs ${
+                  isScrolled ? "text-gray-500" : "text-white/70"
+                }`}>
+                Monday - Friday, 9:00 AM - 6:00 PM EST
+              </div>
+            </div>
+          </div>
+        </div>
 
-        {menu.map((nav, index) => (
-          <li key={index} className="relative group">
-            <div className="flex items-center gap-1 h-full">
-              <Link
-                className="text-[17px]  tracking-wide  hover:text-gray-200 focus:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 focus:rounded-md transition-all duration-200 py-4 px-2"
-                href={nav.path}>
-                {nav.title}
-              </Link>
-              {nav.submenu && (
-                <span className="transition-transform duration-200 group-hover:rotate-180">
-                  {icons.arrow_down}
-                </span>
-              )}
+        {/* Main navigation */}
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex items-center justify-between h-20">
+            {/* Logo */}
+            <a href="/" className="flex items-center gap-3 group">
+              <div
+                className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 ${
+                  isScrolled
+                    ? "bg-gradient-to-br from-[#990100] to-[#660000]"
+                    : "bg-white/10 backdrop-blur-sm group-hover:bg-white/20"
+                }`}>
+                <Scale
+                  className={`w-5 h-5 transition-colors duration-300 ${
+                    isScrolled ? "text-white" : "text-white"
+                  }`}
+                />
+              </div>
+              <div>
+                <h1
+                  className={`text-xl font-bold transition-colors duration-300 ${
+                    isScrolled ? "text-gray-900" : "text-white"
+                  }`}>
+                  LegalTech
+                </h1>
+                <p
+                  className={`text-xs transition-colors duration-300 ${
+                    isScrolled ? "text-gray-500" : "text-white/70"
+                  }`}>
+                  Legal Excellence
+                </p>
+              </div>
+            </a>
+
+            {/* Desktop Menu */}
+            <div className="hidden lg:flex items-center gap-1">
+              {menuItems.map((item, index) => (
+                <div
+                  key={index}
+                  className="relative"
+                  onMouseEnter={() => setHoveredItem(index)}
+                  onMouseLeave={() => setHoveredItem(null)}>
+                  <a
+                    href={item.path}
+                    className={`flex items-center gap-1 px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
+                      isScrolled
+                        ? "text-gray-700 hover:text-[#990100] hover:bg-red-50"
+                        : "text-white hover:bg-white/10"
+                    }`}>
+                    {item.title}
+                    {item.submenu && (
+                      <ChevronDown
+                        className={`w-4 h-4 transition-transform duration-300 ${
+                          hoveredItem === index ? "rotate-180" : ""
+                        }`}
+                      />
+                    )}
+                  </a>
+
+                  {/* Dropdown */}
+                  {item.submenu && (
+                    <div
+                      className={`absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-100 overflow-hidden transition-all duration-300 ${
+                        hoveredItem === index
+                          ? "opacity-100 visible translate-y-0"
+                          : "opacity-0 invisible -translate-y-2"
+                      }`}>
+                      {item.submenu.map((subItem, subIndex) => (
+                        <a
+                          key={subIndex}
+                          href={subItem.subpath}
+                          className="block px-4 py-3 text-sm text-gray-700 hover:bg-red-50 hover:text-[#990100] transition-colors duration-200 border-b border-gray-50 last:border-0">
+                          {subItem.title}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
 
-            {nav.submenu && (
-              <div
-                className={`absolute ${
-                  nav.submenu.length > 5 ? "-left-52" : "left-0"
-                } top-full pt-2 w-auto min-w-[200px] invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-300`}>
-                <ul
-                  className={`bg-white rounded-md shadow-lg overflow-hidden transform origin-top transition-all duration-300 scale-y-0 group-hover:scale-y-100 ${
-                    nav.submenu.length > 5
-                      ? "grid grid-cols-3 gap-x-4 p-3 w-[700px]"
-                      : "block"
-                  }`}>
-                  {nav.submenu.map((sub, subIndex) => (
-                    <li key={subIndex}>
-                      <Link
-                        href={sub.subpath}
-                        className="font-bold block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 focus:bg-blue-50 focus:text-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-200 border-b border-gray-100 last:border-0 whitespace-nowrap">
-                        {sub.title}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </li>
-        ))}
-      </ul>
-
-      {/* Mobile Nav */}
-      {!isDesktop && (
-        <>
-          <Logo
-            style="absolute text-xl p-3 left-0"
-            color={`${
-              isScrolled || isMobileOpenMenu ? "text-info" : "text-white"
-            }`}
-          />
-
-          {/* Phone Link */}
-          <Link
-            className="text-right mr-16"
-            href={`tel:${phoneNumber}`}
-            aria-label="Call us">
-            <i
-              aria-hidden={true}
-              className={`p-2 rounded-full transition-all duration-200 hover:bg-opacity-20 focus:bg-opacity-20 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                isScrolled || isMobileOpenMenu
-                  ? "hover:bg-gray-200 focus:bg-gray-200"
-                  : "hover:bg-white focus:bg-white"
+            {/* CTA Button */}
+            <a
+              href="/contact"
+              className={`hidden lg:flex items-center gap-2 px-6 py-3 rounded-lg font-bold transition-all duration-300 ${
+                isScrolled
+                  ? "bg-[#990100] text-white hover:bg-[#7a0000] shadow-lg hover:shadow-xl"
+                  : "bg-white text-[#990100] hover:bg-gray-100"
               }`}>
-              {icons.phone}
-            </i>
-          </Link>
+              Free Consultation
+              <ChevronRight className="w-4 h-4" />
+            </a>
 
-          {/* Hamburger Menu Button */}
-          <button
-            onClick={() => setIsMobileOpenMenu(!isMobileOpenMenu)}
-            className="bg-secondary p-2 h-20 lg:hidden text-white absolute top-0 right-0 z-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200"
-            aria-label="Toggle menu"
-            aria-expanded={isMobileOpenMenu}>
-            <Hamburger
-              size={25}
-              toggled={isMobileOpenMenu}
-              toggle={setIsMobileOpenMenu}
-            />
-          </button>
-
-          {/* Mobile Menu Overlay */}
-          {isMobileOpenMenu && (
-            <div
-              className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
-              onClick={() => setIsMobileOpenMenu(false)}
-            />
-          )}
-
-          {/* Mobile Menu Panel */}
-          <div
-            className={`fixed top-20 left-0 h-screen w-4/5 max-w-[320px] bg-white text-black z-40 transform transition-transform duration-300 ease-in-out shadow-xl ${
-              isMobileOpenMenu ? "translate-x-0" : "-translate-x-full"
-            }`}>
-            <ul className="flex flex-col gap-2 p-5">
-              {menu.map((nav, index) => (
-                <li
-                  key={index}
-                  className="border-b border-gray-100 last:border-b-0">
-                  <div className="flex justify-between items-center py-3">
-                    <Link
-                      href={nav.path}
-                      className="text-base font-semibold hover:text-blue-600 focus:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:rounded-md transition-all duration-200 px-2 py-1 flex-1"
-                      onClick={handleLinkClick}>
-                      {nav.title}
-                    </Link>
-                    {nav.submenu && (
-                      <button
-                        onClick={() => handleSubMenuToggle(index)}
-                        className="text-xl p-2 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md transition-all duration-200"
-                        aria-expanded={activeSubMenu === index}
-                        aria-label={`Toggle ${nav.title} submenu`}>
-                        {activeSubMenu === index
-                          ? icons.arrow_up
-                          : icons.arrow_down}
-                      </button>
-                    )}
-                  </div>
-
-                  {/* Submenu */}
-                  {nav.submenu && (
-                    <ul
-                      className={`ml-4 mt-1 border-l-2 border-blue-200 pl-3 space-y-1 transition-all duration-300 ease-in-out ${
-                        activeSubMenu === index
-                          ? "max-h-96 opacity-100 pb-2"
-                          : "max-h-0 opacity-0 overflow-hidden"
-                      }`}>
-                      {nav.submenu.map((sub, subIndex) => (
-                        <li key={subIndex}>
-                          <Link
-                            href={sub.subpath}
-                            className="text-sm text-gray-600 block py-2 px-3 hover:bg-blue-50 hover:text-blue-700 focus:bg-blue-50 focus:text-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-500 rounded-md transition-all duration-200"
-                            onClick={handleLinkClick}>
-                            {sub.title}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-              ))}
-
-              {/* Mobile Consultation Button */}
-              <li className="mt-6 pt-4 border-t border-gray-200">
-                <Button
-                  text="Free Consultation"
-                  bg="bg-info"
-                  icon=""
-                  path="contact"
-                  link={true}
-                  onClick={handleLinkClick}
-                  className="w-full justify-center"
-                />
-              </li>
-            </ul>
+            {/* Mobile Menu Button */}
+            <button
+              onClick={toggleMobileMenu}
+              className={`lg:hidden p-2 rounded-lg transition-colors duration-300 ${
+                isScrolled
+                  ? "text-gray-700 hover:bg-gray-100"
+                  : "text-white hover:bg-white/10"
+              }`}
+              aria-label="Toggle menu">
+              {isMobileMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
+            </button>
           </div>
-        </>
-      )}
-
-      {/* Desktop Contact Info */}
-      {isDesktop && (
-        <div className="text-right bg-info text-white px-4 w-52 h-20 flex flex-col justify-center items-center hover:bg-info-dark transition-colors duration-200 focus-within:ring-2 focus-within:ring-blue-500">
-          <span className="text-base font-semibold">Call Us</span>
-          <Link
-            href={`tel:${phoneNumber}`}
-            className="text-lg font-bold hover:underline focus:underline focus:outline-none">
-            {phoneNumber}
-          </Link>
         </div>
-      )}
-    </nav>
-  );
-};
+      </nav>
 
-export default NavBar;
+      {/* Mobile Menu Overlay */}
+      <div
+        className={`fixed inset-0 bg-black/50 z-40 lg:hidden transition-opacity duration-300 ${
+          isMobileMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+        onClick={toggleMobileMenu}
+      />
+
+      {/* Mobile Menu Panel */}
+      <div
+        className={`fixed top-0 right-0 bottom-0 w-full max-w-sm bg-white z-50 lg:hidden transform transition-transform duration-300 ease-out overflow-y-auto ${
+          isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+        }`}>
+        {/* Mobile Menu Header */}
+        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-[#990100] to-[#660000] rounded-lg flex items-center justify-center">
+              <Scale className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <h2 className="text-lg font-bold text-gray-900">LegalTech</h2>
+              <p className="text-xs text-gray-500">Legal Excellence</p>
+            </div>
+          </div>
+          <button
+            onClick={toggleMobileMenu}
+            className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200">
+            <X className="w-6 h-6 text-gray-700" />
+          </button>
+        </div>
+
+        {/* Mobile Menu Items */}
+        <div className="p-6">
+          <ul className="space-y-2">
+            {menuItems.map((item, index) => (
+              <li
+                key={index}
+                className="border-b border-gray-100 last:border-0">
+                <div className="flex items-center justify-between">
+                  <a
+                    href={item.path}
+                    onClick={() => !item.submenu && toggleMobileMenu()}
+                    className="flex-1 py-3 text-base font-semibold text-gray-900 hover:text-[#990100] transition-colors duration-200">
+                    {item.title}
+                  </a>
+                  {item.submenu && (
+                    <button
+                      onClick={() => toggleSubmenu(index)}
+                      className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200">
+                      <ChevronDown
+                        className={`w-5 h-5 text-gray-600 transition-transform duration-300 ${
+                          activeSubmenu === index ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+                  )}
+                </div>
+
+                {/* Mobile Submenu */}
+                {item.submenu && (
+                  <ul
+                    className={`ml-4 space-y-1 overflow-hidden transition-all duration-300 ${
+                      activeSubmenu === index
+                        ? "max-h-96 opacity-100 pb-3"
+                        : "max-h-0 opacity-0"
+                    }`}>
+                    {item.submenu.map((subItem, subIndex) => (
+                      <li key={subIndex}>
+                        <a
+                          href={subItem.subpath}
+                          onClick={toggleMobileMenu}
+                          className="block py-2 px-3 text-sm text-gray-600 hover:text-[#990100] hover:bg-red-50 rounded-lg transition-colors duration-200">
+                          {subItem.title}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ul>
+
+          {/* Mobile CTA */}
+          <a
+            href="/contact"
+            onClick={toggleMobileMenu}
+            className="mt-6 flex items-center justify-center gap-2 w-full px-6 py-4 bg-[#990100] text-white rounded-lg font-bold hover:bg-[#7a0000] transition-colors duration-300">
+            Free Consultation
+            <ChevronRight className="w-4 h-4" />
+          </a>
+
+          {/* Mobile Contact Info */}
+          <div className="mt-6 pt-6 border-t border-gray-200 space-y-3">
+            <a
+              href={`tel:${phoneNumber}`}
+              className="flex items-center gap-3 text-gray-600 hover:text-[#990100] transition-colors duration-200">
+              <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                <Phone className="w-5 h-5" />
+              </div>
+              <div>
+                <p className="text-xs text-gray-500">Call Us</p>
+                <p className="font-semibold">{phoneNumber}</p>
+              </div>
+            </a>
+            <a
+              href="mailto:info@legaltech.com"
+              className="flex items-center gap-3 text-gray-600 hover:text-[#990100] transition-colors duration-200">
+              <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                <Mail className="w-5 h-5" />
+              </div>
+              <div>
+                <p className="text-xs text-gray-500">Email Us</p>
+                <p className="font-semibold">info@legaltech.com</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}

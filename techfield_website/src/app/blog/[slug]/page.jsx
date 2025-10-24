@@ -1,19 +1,21 @@
-import { getPostBySlug, getAllPosts } from "@/lib/blog";
 import { notFound } from "next/navigation";
-import { MDXRemote } from "next-mdx-remote/rsc";
+import { MDXRemote } from "next-mdx-remote/rsc"; // ✅ use /rsc for App Router
 import Image from "next/image";
+import { getPostBySlug } from "@/lib/postBySlug";
+import { getAllPosts } from "@/lib/allPost";
 
 export async function generateStaticParams() {
   const posts = getAllPosts();
   return posts.map((post) => ({ slug: post.slug }));
 }
 
-export default function BlogPost({ params }: { params: { slug: string } }) {
-  const post = getPostBySlug(params.slug);
+export default async function BlogPost({ params }) {
+  const { slug } = await params;
+  console.log("SLUG", slug);
 
-  if (!post) {
-    notFound();
-  }
+  const post = getPostBySlug(slug);
+
+  if (!post) notFound();
 
   return (
     <article className="min-h-screen bg-slate-950 py-20 px-4">
@@ -46,7 +48,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
         </div>
 
         {/* Content */}
-        <div className="prose prose-invert prose-lg max-w-none">
+        <div className="text-white/70 text-justify prose prose-invert prose-lg max-w-none">
           <MDXRemote source={post.content} />
         </div>
 

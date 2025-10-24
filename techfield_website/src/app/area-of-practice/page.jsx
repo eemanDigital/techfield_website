@@ -1,114 +1,138 @@
 "use client";
 import { useState } from "react";
 import {
-  Scale,
-  Brain,
-  FileCode,
-  Building2,
-  TrendingUp,
-  Shield,
-  Lock,
-  Globe,
   ArrowRight,
   Sparkles,
+  Scale,
+  FileText,
+  Shield,
+  Users,
+  Briefcase,
+  Building,
+  Gavel,
+  BookOpen,
 } from "lucide-react";
 
 const practiceAreas = [
   {
-    id: "blockchain",
-    title: "Blockchain & Digital Assets",
-    icon: Scale,
+    id: "corporate-law",
+    title: "Corporate Law",
+    icon: Building,
     description:
-      "Navigate the complexities of cryptocurrency, tokenization, and decentralized finance with expert legal guidance.",
-    gradient: "from-cyan-500 via-blue-500 to-indigo-600",
-    accentColor: "cyan",
-    features: ["Token Compliance", "Crypto Regulations", "DeFi Structuring"],
+      "Comprehensive corporate legal services including governance, compliance, and strategic transactions.",
+    features: ["M&A Advisory", "Contract Drafting", "Corporate Governance"],
   },
   {
-    id: "ai-advisory",
-    title: "AI & Emerging Tech Advisory",
-    icon: Brain,
+    id: "litigation",
+    title: "Litigation & Dispute Resolution",
+    icon: Gavel,
     description:
-      "Stay ahead of AI regulations and ensure responsible deployment of cutting-edge technologies.",
-    gradient: "from-purple-500 via-pink-500 to-rose-600",
-    accentColor: "purple",
-    features: ["AI Compliance", "ML Governance", "Tech Due Diligence"],
-  },
-  {
-    id: "smart-contracts",
-    title: "Smart Contracts & DAO",
-    icon: FileCode,
-    description:
-      "Legal frameworks for autonomous organizations and self-executing agreements on blockchain.",
-    gradient: "from-emerald-500 via-teal-500 to-cyan-600",
-    accentColor: "emerald",
-    features: ["DAO Formation", "Contract Audits", "Governance Design"],
-  },
-  {
-    id: "business-formation",
-    title: "Business Formation & Corporate",
-    icon: Building2,
-    description:
-      "Strategic structuring for startups and established enterprises in the digital economy.",
-    gradient: "from-orange-500 via-amber-500 to-yellow-600",
-    accentColor: "orange",
-    features: ["Entity Formation", "Corporate Governance", "M&A Advisory"],
-  },
-  {
-    id: "venture-capital",
-    title: "Venture Capital & Investment",
-    icon: TrendingUp,
-    description:
-      "From seed rounds to exits, comprehensive legal support for fundraising and investments.",
-    gradient: "from-blue-500 via-indigo-500 to-purple-600",
-    accentColor: "blue",
-    features: ["Fundraising", "Term Sheets", "Cap Table Management"],
+      "Expert representation in complex commercial litigation and alternative dispute resolution.",
+    features: ["Trial Advocacy", "Arbitration", "Mediation Services"],
   },
   {
     id: "intellectual-property",
-    title: "IP & Technology Protection",
+    title: "Intellectual Property",
     icon: Shield,
     description:
-      "Safeguard your innovations, patents, trademarks, and proprietary technology assets.",
-    gradient: "from-red-500 via-rose-500 to-pink-600",
-    accentColor: "red",
-    features: ["Patent Strategy", "Trademark Protection", "Trade Secrets"],
+      "Protection and enforcement of patents, trademarks, copyrights, and trade secrets.",
+    features: ["Patent Filing", "Trademark Registration", "IP Strategy"],
   },
   {
-    id: "data-protection",
-    title: "Data Protection & Privacy",
-    icon: Lock,
+    id: "employment-law",
+    title: "Employment & Labor",
+    icon: Users,
     description:
-      "NDPA 2023 compliance and comprehensive data governance for the digital age.",
-    gradient: "from-slate-500 via-gray-500 to-zinc-600",
-    accentColor: "slate",
-    features: ["NDPA Compliance", "Privacy Audits", "Data Governance"],
+      "Guidance on employment relationships, workplace policies, and labor compliance.",
+    features: ["HR Compliance", "Employment Contracts", "Workplace Disputes"],
   },
   {
-    id: "cross-border",
-    title: "Cross-Border Advisory",
-    icon: Globe,
+    id: "real-estate",
+    title: "Real Estate Law",
+    icon: Briefcase,
     description:
-      "Navigate international regulations and expand globally with confidence and compliance.",
-    gradient: "from-violet-500 via-fuchsia-500 to-purple-600",
-    accentColor: "violet",
+      "Legal support for property transactions, leasing, and real estate development.",
+    features: ["Property Transactions", "Lease Agreements", "Zoning Issues"],
+  },
+  {
+    id: "regulatory",
+    title: "Regulatory Compliance",
+    icon: FileText,
+    description:
+      "Navigate complex regulatory environments with expert compliance and risk management.",
+    features: ["Risk Assessment", "Policy Development", "Regulatory Filings"],
+  },
+  {
+    id: "tax-law",
+    title: "Tax Law",
+    icon: Scale,
+    description:
+      "Strategic tax planning, compliance, and dispute resolution services.",
+    features: ["Tax Planning", "IRS Representation", "Tax Controversy"],
+  },
+  {
+    id: "legal-tech",
+    title: "Legal Technology",
+    icon: BookOpen,
+    description:
+      "Innovative legal solutions leveraging technology for efficient service delivery.",
     features: [
-      "Global Expansion",
-      "Multi-Jurisdictional",
-      "International Trade",
+      "Contract Automation",
+      "Legal Analytics",
+      "Digital Transformation",
     ],
   },
 ];
+
+// Geometric Pattern Background Component
+function GeometricPattern() {
+  return (
+    <div className="absolute inset-0 overflow-hidden opacity-10">
+      <div className="absolute -top-20 -right-20 w-96 h-96">
+        {[...Array(9)].map((_, i) => (
+          <div
+            key={`tr-${i}`}
+            className="absolute border border-white"
+            style={{
+              width: `${(i + 1) * 90}px`,
+              height: `${(i + 1) * 90}px`,
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%) rotate(45deg)",
+              animation: `spin ${20 + i * 5}s linear infinite`,
+            }}
+          />
+        ))}
+      </div>
+      <style jsx>{`
+        @keyframes spin {
+          from {
+            transform: translate(-50%, -50%) rotate(45deg);
+          }
+          to {
+            transform: translate(-50%, -50%) rotate(405deg);
+          }
+        }
+      `}</style>
+    </div>
+  );
+}
 
 export default function PracticeAreas() {
   const [hoveredId, setHoveredId] = useState(null);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 py-24 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-zinc-950 via-neutral-900 to-zinc-900 py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      <GeometricPattern />
+
+      {/* Ambient light effect */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-red-500/5 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-red-500/5 rounded-full blur-3xl"></div>
+
       {/* Section Header */}
-      <div className="max-w-7xl mx-auto mb-20 text-center">
+      <div className="max-w-7xl mx-auto mb-16 relative z-10">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 mb-6">
-          <Sparkles className="w-4 h-4 text-cyan-400" />
+          <Sparkles className="w-4 h-4 text-white" />
           <span className="text-sm font-medium text-white/90">
             Our Expertise
           </span>
@@ -117,14 +141,14 @@ export default function PracticeAreas() {
         <h2 className="text-5xl md:text-6xl font-bold text-white mb-6 tracking-tight">
           Practice Areas
         </h2>
-        <p className="text-xl text-white/60 max-w-3xl mx-auto leading-relaxed">
+        <p className="text-xl text-white/70 max-w-3xl leading-relaxed">
           Comprehensive legal solutions at the intersection of law, technology,
           and innovation
         </p>
       </div>
 
-      {/* Practice Areas Grid */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* Practice Areas List */}
+      <div className="max-w-7xl mx-auto space-y-1 relative z-10">
         {practiceAreas.map((area, index) => {
           const Icon = area.icon;
           const isHovered = hoveredId === area.id;
@@ -137,85 +161,131 @@ export default function PracticeAreas() {
               }
               onMouseEnter={() => setHoveredId(area.id)}
               onMouseLeave={() => setHoveredId(null)}
-              className="group relative overflow-hidden rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-cyan-500/10 text-left"
+              className="group relative w-full text-left transition-all duration-300"
               style={{
-                animationDelay: `${index * 100}ms`,
+                opacity: 0,
+                animation: `fadeInUp 0.6s ease-out forwards ${index * 0.1}s`,
               }}>
-              {/* Gradient Overlay */}
+              {/* Hover background effect */}
               <div
-                className={`absolute inset-0 bg-gradient-to-br ${area.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}
-              />
+                className={`absolute inset-0 bg-white/5 backdrop-blur-sm transition-all duration-300 ${
+                  isHovered ? "opacity-100" : "opacity-0"
+                }`}></div>
 
-              {/* Animated Border Glow */}
+              {/* Left accent line */}
               <div
-                className={`absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br ${area.gradient} blur-xl -z-10`}
-              />
+                className={`absolute left-0 top-0 h-full w-1 bg-white transition-all duration-300 ${
+                  isHovered ? "opacity-100" : "opacity-0"
+                }`}></div>
 
-              <div className="relative p-8">
-                {/* Icon Container */}
-                <div
-                  className={`inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br ${area.gradient} mb-6 shadow-lg group-hover:scale-110 transition-transform duration-500`}>
-                  <Icon className="w-7 h-7 text-white" />
+              <div className="relative px-8 py-8 flex items-start gap-6 border-b border-white/5 hover:border-white/10 transition-colors duration-300">
+                {/* Number */}
+                <div className="hidden md:flex items-center justify-center w-16 flex-shrink-0">
+                  <span
+                    className={`text-5xl font-bold transition-all duration-300 ${
+                      isHovered ? "text-white" : "text-white/20"
+                    }`}>
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
                 </div>
 
-                {/* Title */}
-                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors duration-300">
-                  {area.title}
-                </h3>
+                {/* Icon */}
+                <div
+                  className={`flex items-center justify-center w-16 h-16 flex-shrink-0 rounded-lg bg-white/5 border border-white/10 transition-all duration-300 ${
+                    isHovered ? "bg-white/10 border-white/20 scale-110" : ""
+                  }`}>
+                  <Icon
+                    className={`w-7 h-7 transition-colors duration-300 ${
+                      isHovered ? "text-white" : "text-white/60"
+                    }`}
+                  />
+                </div>
 
-                {/* Description */}
-                <p className="text-sm text-white/60 mb-6 leading-relaxed line-clamp-3 group-hover:text-white/80 transition-colors duration-300">
-                  {area.description}
-                </p>
+                {/* Content */}
+                <div className="flex-1 min-w-0">
+                  <h3
+                    className={`text-2xl font-bold mb-2 transition-colors duration-300 ${
+                      isHovered ? "text-white" : "text-white/90"
+                    }`}>
+                    {area.title}
+                  </h3>
 
-                {/* Features */}
-                <div className="space-y-2 mb-6">
-                  {area.features.map((feature, i) => (
-                    <div
-                      key={i}
-                      className="flex items-center gap-2 text-xs text-white/50">
-                      <div
-                        className={`w-1 h-1 rounded-full bg-gradient-to-r ${area.gradient}`}
-                      />
-                      <span className="group-hover:text-white/70 transition-colors duration-300">
+                  <p
+                    className={`text-base mb-4 transition-colors duration-300 ${
+                      isHovered ? "text-white/80" : "text-white/50"
+                    }`}>
+                    {area.description}
+                  </p>
+
+                  {/* Features as inline tags */}
+                  <div className="flex flex-wrap gap-2">
+                    {area.features.map((feature, i) => (
+                      <span
+                        key={i}
+                        className={`px-3 py-1 text-xs rounded-full border transition-all duration-300 ${
+                          isHovered
+                            ? "bg-white/10 border-white/30 text-white/90"
+                            : "bg-white/5 border-white/10 text-white/50"
+                        }`}>
                         {feature}
                       </span>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
 
-                {/* CTA */}
-                <div className="flex items-center gap-2 text-sm font-medium text-white/70 group-hover:text-white transition-colors duration-300">
-                  <span>Learn More</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                {/* Arrow CTA */}
+                <div className="hidden lg:flex items-center justify-center w-12 h-12 flex-shrink-0">
+                  <ArrowRight
+                    className={`w-6 h-6 transition-all duration-300 ${
+                      isHovered ? "text-white translate-x-2" : "text-white/30"
+                    }`}
+                  />
                 </div>
               </div>
 
-              {/* Corner Accent */}
-              <div
-                className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${area.gradient} opacity-0 group-hover:opacity-20 blur-3xl transition-opacity duration-500 -z-10`}
-              />
+              <style jsx>{`
+                @keyframes fadeInUp {
+                  from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                  }
+                  to {
+                    opacity: 1;
+                    transform: translateY(0);
+                  }
+                }
+              `}</style>
             </button>
           );
         })}
       </div>
 
       {/* Bottom CTA */}
-      <div className="max-w-7xl mx-auto mt-20 text-center">
-        <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10">
-          <div className="flex-1">
-            <h3 className="text-2xl font-bold text-white mb-2">
-              Not sure where to start?
-            </h3>
-            <p className="text-white/60">
-              Schedule a consultation and we'll guide you to the right solution
-            </p>
+      <div className="max-w-7xl mx-auto mt-20 relative z-10">
+        <GeometricPattern />
+
+        <div className="relative overflow-hidden rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 p-12">
+          {/* Decorative corner boxes */}
+          <div className="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-white/20"></div>
+          <div className="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2 border-white/20"></div>
+
+          <div className="relative flex flex-col lg:flex-row items-center justify-between gap-8">
+            <div className="flex-1 text-center lg:text-left">
+              <h3 className="text-3xl font-bold text-white mb-3">
+                Not sure where to start?
+              </h3>
+              <p className="text-lg text-white/70">
+                Schedule a consultation and we'll guide you to the right
+                solution
+              </p>
+            </div>
+            <button
+              onClick={() => (window.location.href = "/contact")}
+              className="group px-10 py-5 bg-white text-[#990100] rounded-lg font-bold text-lg hover:bg-gray-100 transition-all duration-300 hover:scale-105 hover:shadow-2xl whitespace-nowrap flex items-center gap-3">
+              Book Consultation
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+            </button>
           </div>
-          <button
-            onClick={() => (window.location.href = "/contact")}
-            className="px-8 py-4 bg-gradient-to-r from-red-600 to-red-900 rounded-xl font-semibold text-white hover:shadow-2xl hover:shadow-cyan-500/30 transition-all duration-300 hover:scale-105 whitespace-nowrap">
-            Book Consultation
-          </button>
         </div>
       </div>
     </div>
