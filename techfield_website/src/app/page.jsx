@@ -3,8 +3,7 @@ import About from "./about-us/page";
 import PracticeAreas from "./area-of-practice/page";
 import BlogPage from "./blog/page";
 import TextCarousel from "./component/carousel/textCarousel";
-import TeamSection from "./our-team/page";
-import Footer from "./footer/page";
+import FAQSection from "./faq/page";
 
 const blogPosts = getAllPosts();
 
@@ -18,8 +17,9 @@ const Page = () => {
           <About />
 
           <PracticeAreas />
-          <TeamSection />
+          {/* <TeamSection /> */}
           <BlogPage blogPosts={blogPosts} />
+          <FAQSection />
         </p>
       </div>
     </main>

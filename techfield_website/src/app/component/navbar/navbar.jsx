@@ -19,31 +19,31 @@ const menuItems = [
     title: "Practice Areas",
     path: "/practice-areas",
     submenu: [
-      { title: "Corporate Law", subpath: "/practice-areas/corporate" },
-      { title: "Litigation", subpath: "/practice-areas/litigation" },
-      { title: "Intellectual Property", subpath: "/practice-areas/ip" },
-      { title: "Employment Law", subpath: "/practice-areas/employment" },
-      { title: "Real Estate", subpath: "/practice-areas/real-estate" },
-      { title: "Tax Law", subpath: "/practice-areas/tax" },
+      { title: "Corporate Law", subpath: "/practice-area/corporate" },
+      { title: "Litigation", subpath: "/practice-area/litigation" },
+      { title: "Intellectual Property", subpath: "/practice-area/ip" },
+      { title: "Employment Law", subpath: "/practice-area/employment" },
+      { title: "Real Estate", subpath: "/practice-area/real-estate" },
+      { title: "Tax Law", subpath: "/practice-area/tax" },
     ],
   },
   {
     title: "Our Team",
-    path: "/team",
+    path: "/our-team",
   },
+  // {
+  //   title: "About Us",
+  //   path: "/about",
+  // },
   {
-    title: "About Us",
-    path: "/about",
-  },
-  {
-    title: "Resources",
-    path: "/resources",
-    submenu: [
-      { title: "Blog & Insights", subpath: "/blog" },
-      { title: "Case Studies", subpath: "/case-studies" },
-      { title: "Legal Resources", subpath: "/resources" },
-      { title: "FAQ", subpath: "/faq" },
-    ],
+    title: "blog",
+    path: "/blog/all-news",
+    // submenu: [
+    //   { title: "Blog & Insights", subpath: "/blog" },
+    //   { title: "Case Studies", subpath: "/case-studies" },
+    //   { title: "Legal Resources", subpath: "/resources" },
+    //   { title: "FAQ", subpath: "/faq" },
+    // ],
   },
   {
     title: "Contact",
@@ -145,18 +145,19 @@ export default function NavBar() {
                     ? "bg-gradient-to-br from-[#990100] to-[#660000]"
                     : "bg-white/10 backdrop-blur-sm group-hover:bg-white/20"
                 }`}>
-                <Scale
-                  className={`w-5 h-5 transition-colors duration-300 ${
+                <div
+                  className={`w-5 h-5 transition-colors duration-300  font-extrabold ${
                     isScrolled ? "text-white" : "text-white"
-                  }`}
-                />
+                  }`}>
+                  TL
+                </div>
               </div>
               <div>
                 <h1
                   className={`text-xl font-bold transition-colors duration-300 ${
                     isScrolled ? "text-gray-900" : "text-white"
                   }`}>
-                  LegalTech
+                  Techfield Law
                 </h1>
                 <p
                   className={`text-xs transition-colors duration-300 ${

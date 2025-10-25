@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import HeaderText from "../component/HeaderText";
 
 const About = () => {
   return (
@@ -38,9 +39,7 @@ const About = () => {
 
           {/* Content Section */}
           <div className="lg:w-3/5">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-              About <span className="text-primary">Techfield Law</span>
-            </h2>
+            <HeaderText textOne="About" textTwo="Us" />
 
             <div className="space-y-4 text-gray-700 leading-relaxed">
               <p className="text-lg font-medium">

@@ -150,10 +150,10 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 bg-gradient-to-br from-[#990100] to-[#660000] rounded-lg flex items-center justify-center">
-                <Scale className="w-6 h-6 text-white" />
+                <div className="w-6 h-6 text-white font-extrabold"> TL</div>
               </div>
               <div>
-                <h3 className="text-2xl font-bold">LegalTech</h3>
+                <h3 className="text-2xl font-bold">Techfield</h3>
                 <p className="text-xs text-white/50">Legal Excellence</p>
               </div>
             </div>
@@ -316,7 +316,9 @@ export default function Footer() {
       <div className="relative border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-sm text-white/50">
-            <p>© {new Date().getFullYear()} LegalTech. All rights reserved.</p>
+            <p>
+              © {new Date().getFullYear()} Techfield Law. All rights reserved.
+            </p>
             <div className="flex flex-wrap gap-6">
               <a
                 href="/attorney-advertising"
