@@ -9,6 +9,13 @@ import {
   ChevronDown,
   ChevronRight,
 } from "lucide-react";
+import {
+  phoneNumber,
+  email,
+  logoName,
+  logoInitials,
+  logoTagline,
+} from "@/data/info";
 
 const menuItems = [
   {
@@ -18,14 +25,14 @@ const menuItems = [
   {
     title: "Practice Areas",
     path: "/practice-areas",
-    submenu: [
-      { title: "Corporate Law", subpath: "/practice-area/corporate" },
-      { title: "Litigation", subpath: "/practice-area/litigation" },
-      { title: "Intellectual Property", subpath: "/practice-area/ip" },
-      { title: "Employment Law", subpath: "/practice-area/employment" },
-      { title: "Real Estate", subpath: "/practice-area/real-estate" },
-      { title: "Tax Law", subpath: "/practice-area/tax" },
-    ],
+    // submenu: [
+    //   { title: "Corporate Law", subpath: "/practice-area/corporate" },
+    //   { title: "Litigation", subpath: "/practice-area/litigation" },
+    //   { title: "Intellectual Property", subpath: "/practice-area/ip" },
+    //   { title: "Employment Law", subpath: "/practice-area/employment" },
+    //   { title: "Real Estate", subpath: "/practice-area/real-estate" },
+    //   { title: "Tax Law", subpath: "/practice-area/tax" },
+    // ],
   },
   {
     title: "Our Team",
@@ -56,8 +63,6 @@ export default function NavBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState(null);
   const [hoveredItem, setHoveredItem] = useState(null);
-
-  const phoneNumber = "+234-806-723-4189";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -121,7 +126,7 @@ export default function NavBar() {
                       : "text-white/90 hover:text-white"
                   }`}>
                   <Mail className="w-3.5 h-3.5" />
-                  <span>info@legaltech.com</span>
+                  <span>{email}</span>
                 </a>
               </div>
               <div
@@ -149,21 +154,21 @@ export default function NavBar() {
                   className={`w-5 h-5 transition-colors duration-300  font-extrabold ${
                     isScrolled ? "text-white" : "text-white"
                   }`}>
-                  TL
+                  {logoInitials}
                 </div>
               </div>
               <div>
                 <h1
-                  className={`text-xl font-bold transition-colors duration-300 ${
+                  className={` font-bold transition-colors duration-300 ${
                     isScrolled ? "text-gray-900" : "text-white"
                   }`}>
-                  Techfield Law
+                  {logoName}
                 </h1>
                 <p
-                  className={`text-xs transition-colors duration-300 ${
+                  className={`text-xs italic transition-colors duration-300 ${
                     isScrolled ? "text-gray-500" : "text-white/70"
                   }`}>
-                  Legal Excellence
+                  {logoTagline}
                 </p>
               </div>
             </a>
@@ -266,8 +271,8 @@ export default function NavBar() {
               <Scale className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-gray-900">LegalTech</h2>
-              <p className="text-xs text-gray-500">Legal Excellence</p>
+              <h2 className="text-lg font-bold text-gray-900">{logoName}</h2>
+              <p className="text-xs text-gray-500">{logoTagline}</p>
             </div>
           </div>
           <button

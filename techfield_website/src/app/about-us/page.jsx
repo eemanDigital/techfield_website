@@ -12,7 +12,6 @@ const About = () => {
             {/* Background decorative elements */}
             <div className="absolute -top-8 -left-8 w-80 h-80 bg-info/5 rounded-full z-0"></div>
             <div className="absolute -bottom-8 -right-8 w-64 h-64 bg-primary/5 rounded-full z-0"></div>
-
             {/* Main image with elegant frame */}
             <div className="relative z-10">
               <div className="relative w-80 h-80 rounded-3xl overflow-hidden shadow-2xl">

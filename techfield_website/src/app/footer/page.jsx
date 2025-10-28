@@ -14,6 +14,7 @@ import {
   Award,
   Shield,
 } from "lucide-react";
+import { logoInitials, logoName, logoTagline, offices } from "@/data/info";
 
 const footerLinks = {
   services: [
@@ -41,27 +42,6 @@ const footerLinks = {
     { name: "Accessibility", href: "/accessibility" },
   ],
 };
-
-const offices = [
-  {
-    city: "New York",
-    address: "125 Park Avenue, Suite 2500",
-    zip: "New York, NY 10017",
-    phone: "+1 (212) 555-0100",
-  },
-  {
-    city: "San Francisco",
-    address: "555 California Street, 10th Floor",
-    zip: "San Francisco, CA 94104",
-    phone: "+1 (415) 555-0200",
-  },
-  {
-    city: "Washington DC",
-    address: "1800 K Street NW, Suite 900",
-    zip: "Washington, DC 20006",
-    phone: "+1 (202) 555-0300",
-  },
-];
 
 const certifications = [
   { icon: Award, text: "AV Rated Preeminent" },
@@ -150,11 +130,14 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 bg-gradient-to-br from-[#990100] to-[#660000] rounded-lg flex items-center justify-center">
-                <div className="w-6 h-6 text-white font-extrabold"> TL</div>
+                <div className="w-6 h-6 text-white font-extrabold">
+                  {" "}
+                  {logoInitials}
+                </div>
               </div>
               <div>
-                <h3 className="text-2xl font-bold">Techfield</h3>
-                <p className="text-xs text-white/50">Legal Excellence</p>
+                <h3 className="text-2xl font-bold">{logoName}</h3>
+                <p className="text-xs text-white/50">{logoTagline}</p>
               </div>
             </div>
 
@@ -165,7 +148,7 @@ export default function Footer() {
             </p>
 
             {/* Certifications */}
-            <div className="space-y-3 mb-6">
+            {/* <div className="space-y-3 mb-6">
               {certifications.map((cert, i) => {
                 const Icon = cert.icon;
                 return (
@@ -177,7 +160,7 @@ export default function Footer() {
                   </div>
                 );
               })}
-            </div>
+            </div> */}
 
             {/* Social Links */}
             <div className="flex gap-3">

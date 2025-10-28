@@ -3,30 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import GeometricPattern from "../GeometricPattern";
-
-const TEXTS = [
-  { id: 1, content: "Expert Legal Solutions for Your Business" },
-  { id: 2, content: "Technology-Driven Legal Excellence" },
-  { id: 3, content: "Your Trusted Partner in Legal Innovation" },
-];
-
-const animations = [
-  {
-    initial: { opacity: 0, y: 30 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -30 },
-  },
-  {
-    initial: { opacity: 0, x: -40 },
-    animate: { opacity: 1, x: 0 },
-    exit: { opacity: 0, x: 40 },
-  },
-  {
-    initial: { opacity: 0, scale: 0.9 },
-    animate: { opacity: 1, scale: 1 },
-    exit: { opacity: 0, scale: 1.1 },
-  },
-];
+import { animations, TEXTS } from "./texts";
 
 // Check icon component
 function CheckIcon() {
@@ -46,7 +23,7 @@ function CheckIcon() {
   );
 }
 
-export default function TextCarousel() {
+export default function Hero() {
   const [activeIndex, setActiveIndex] = useState(0);
   const intervalRef = useRef(null);
 
@@ -94,7 +71,7 @@ export default function TextCarousel() {
               animate={animation.animate}
               exit={animation.exit}
               transition={{ duration: 0.8, ease: "easeInOut" }}
-              className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight tracking-tight mt-12  min-h-[180px] md:min-h-[200px]">
+              className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight tracking-tight mt-14 md:mt-12 min-h-[120px] md:min-h-[200px]">
               {currentText.content}
             </motion.h1>
           </AnimatePresence>
@@ -134,7 +111,7 @@ export default function TextCarousel() {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.9 + i * 0.1 }}
-                  className="flex items-center gap-2 px-4 py-2 bg-white/5 backdrop-blur-sm rounded-full border border-white/20">
+                  className="flex items-center gap-2 p-2 bg-white/5 backdrop-blur-sm rounded-full border border-white/20">
                   <span className="bg-white text-[#990100] p-1 rounded-full flex items-center justify-center">
                     <CheckIcon />
                   </span>
