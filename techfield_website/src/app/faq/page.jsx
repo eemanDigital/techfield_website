@@ -1,8 +1,9 @@
 "use client";
 import { useState } from "react";
 import { Mail, Phone, Clock } from "lucide-react";
-import { email, faqData, phoneNumber } from "@/data/info";
+import { email, phoneNumber } from "@/data/info";
 import FAQItem from "../component/FAQItems";
+import { faqData } from "@/data/faqData";
 
 export default function FAQSection() {
   const [openItems, setOpenItems] = useState(new Set());

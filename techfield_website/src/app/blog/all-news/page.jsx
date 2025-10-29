@@ -3,8 +3,6 @@ import { getAllPosts } from "@/lib/allPost";
 
 const blogPosts = getAllPosts();
 
-console.log(blogPosts);
-
 const AllNewsPage = () => {
   return (
     <>

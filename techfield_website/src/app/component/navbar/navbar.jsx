@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   Scale,
   Phone,
@@ -24,7 +24,7 @@ const menuItems = [
   },
   {
     title: "Practice Areas",
-    path: "/practice-areas",
+    path: "/area-of-areas",
     // submenu: [
     //   { title: "Corporate Law", subpath: "/practice-area/corporate" },
     //   { title: "Litigation", subpath: "/practice-area/litigation" },
@@ -63,6 +63,7 @@ export default function NavBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState(null);
   const [hoveredItem, setHoveredItem] = useState(null);
+  const mobileMenuRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -76,9 +77,44 @@ export default function NavBar() {
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = "hidden";
+      // Focus first item when mobile menu opens
+      setTimeout(() => {
+        const firstMenuItem = document.querySelector("[data-mobile-menu-item]");
+        if (firstMenuItem) firstMenuItem.focus();
+      }, 100);
     } else {
       document.body.style.overflow = "unset";
     }
+  }, [isMobileMenuOpen]);
+
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === "Escape") {
+        setHoveredItem(null);
+        setActiveSubmenu(null);
+        if (isMobileMenuOpen) {
+          toggleMobileMenu();
+        }
+      }
+    };
+
+    const handleClickOutside = (e) => {
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(e.target) &&
+        isMobileMenuOpen
+      ) {
+        toggleMobileMenu();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, [isMobileMenuOpen]);
 
   const toggleMobileMenu = () => {
@@ -88,6 +124,41 @@ export default function NavBar() {
 
   const toggleSubmenu = (index) => {
     setActiveSubmenu(activeSubmenu === index ? null : index);
+  };
+
+  const handleAnchorClick = (e, path) => {
+    if (path.includes("#")) {
+      e.preventDefault();
+      const targetId = path.split("#")[1];
+      const targetElement = document.getElementById(targetId);
+
+      if (targetElement) {
+        // Close mobile menu if open
+        if (isMobileMenuOpen) {
+          toggleMobileMenu();
+        }
+
+        // Smooth scroll to target
+        targetElement.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+
+        // Focus the target for accessibility
+        setTimeout(() => {
+          targetElement.setAttribute("tabindex", "-1");
+          targetElement.focus();
+        }, 1000);
+      }
+    }
+  };
+
+  const handleMenuItemClick = (e, item) => {
+    if (item.path.includes("#")) {
+      handleAnchorClick(e, item.path);
+    } else if (!item.submenu) {
+      toggleMobileMenu();
+    }
   };
 
   return (
@@ -110,21 +181,23 @@ export default function NavBar() {
               <div className="flex items-center gap-6">
                 <a
                   href={`tel:${phoneNumber}`}
-                  className={`flex items-center gap-2 transition-colors duration-300 ${
+                  className={`flex items-center gap-2 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#990100] focus:ring-offset-2 rounded-md px-2 py-1 ${
                     isScrolled
-                      ? "text-gray-600 hover:text-[#990100]"
-                      : "text-white/90 hover:text-white"
-                  }`}>
+                      ? "text-gray-600 hover:text-[#990100] focus:text-[#990100]"
+                      : "text-white/90 hover:text-white focus:text-white"
+                  }`}
+                  tabIndex={0}>
                   <Phone className="w-3.5 h-3.5" />
                   <span className="font-medium">{phoneNumber}</span>
                 </a>
                 <a
                   href="mailto:info@legaltech.com"
-                  className={`flex items-center gap-2 transition-colors duration-300 ${
+                  className={`flex items-center gap-2 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#990100] focus:ring-offset-2 rounded-md px-2 py-1 ${
                     isScrolled
-                      ? "text-gray-600 hover:text-[#990100]"
-                      : "text-white/90 hover:text-white"
-                  }`}>
+                      ? "text-gray-600 hover:text-[#990100] focus:text-[#990100]"
+                      : "text-white/90 hover:text-white focus:text-white"
+                  }`}
+                  tabIndex={0}>
                   <Mail className="w-3.5 h-3.5" />
                   <span>{email}</span>
                 </a>
@@ -143,7 +216,10 @@ export default function NavBar() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
-            <a href="/" className="flex items-center gap-3 group">
+            <a
+              href="/"
+              className="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-[#990100] focus:ring-offset-2 rounded-lg p-2"
+              tabIndex={0}>
               <div
                 className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 ${
                   isScrolled
@@ -183,11 +259,12 @@ export default function NavBar() {
                   onMouseLeave={() => setHoveredItem(null)}>
                   <a
                     href={item.path}
-                    className={`flex items-center gap-1 px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
+                    className={`flex items-center gap-1 px-4 py-2 rounded-lg font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#990100] focus:ring-offset-2 focus:ring-offset-white ${
                       isScrolled
-                        ? "text-gray-700 hover:text-[#990100] hover:bg-red-50"
-                        : "text-white hover:bg-white/10"
-                    }`}>
+                        ? "text-gray-700 hover:text-[#990100] hover:bg-red-50 focus:text-[#990100] focus:bg-red-50"
+                        : "text-white hover:bg-white/10 focus:bg-white/10"
+                    }`}
+                    tabIndex={0}>
                     {item.title}
                     {item.submenu && (
                       <ChevronDown
@@ -210,7 +287,8 @@ export default function NavBar() {
                         <a
                           key={subIndex}
                           href={subItem.subpath}
-                          className="block px-4 py-3 text-sm text-gray-700 hover:bg-red-50 hover:text-[#990100] transition-colors duration-200 border-b border-gray-50 last:border-0">
+                          className="block px-4 py-3 text-sm text-gray-700 hover:bg-red-50 hover:text-[#990100] focus:bg-red-50 focus:text-[#990100] focus:outline-none transition-colors duration-200 border-b border-gray-50 last:border-0"
+                          tabIndex={hoveredItem === index ? 0 : -1}>
                           {subItem.title}
                         </a>
                       ))}
@@ -223,11 +301,12 @@ export default function NavBar() {
             {/* CTA Button */}
             <a
               href="/contact"
-              className={`hidden lg:flex items-center gap-2 px-6 py-3 rounded-lg font-bold transition-all duration-300 ${
+              className={`hidden lg:flex items-center gap-2 px-6 py-3 rounded-lg font-bold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#990100] focus:ring-offset-2 ${
                 isScrolled
-                  ? "bg-[#990100] text-white hover:bg-[#7a0000] shadow-lg hover:shadow-xl"
-                  : "bg-white text-[#990100] hover:bg-gray-100"
-              }`}>
+                  ? "bg-[#990100] text-white hover:bg-[#7a0000] shadow-lg hover:shadow-xl focus:bg-[#7a0000] focus:shadow-xl"
+                  : "bg-white text-[#990100] hover:bg-gray-100 focus:bg-gray-100"
+              }`}
+              tabIndex={0}>
               Free Consultation
               <ChevronRight className="w-4 h-4" />
             </a>
@@ -235,12 +314,14 @@ export default function NavBar() {
             {/* Mobile Menu Button */}
             <button
               onClick={toggleMobileMenu}
-              className={`lg:hidden p-2 rounded-lg transition-colors duration-300 ${
+              className={`lg:hidden p-2 rounded-lg transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#990100] focus:ring-offset-2 ${
                 isScrolled
-                  ? "text-gray-700 hover:bg-gray-100"
-                  : "text-white hover:bg-white/10"
+                  ? "text-gray-700 hover:bg-gray-100 focus:bg-gray-100"
+                  : "text-white hover:bg-white/10 focus:bg-white/10"
               }`}
-              aria-label="Toggle menu">
+              aria-label="Toggle menu"
+              aria-expanded={isMobileMenuOpen}
+              tabIndex={0}>
               {isMobileMenuOpen ? (
                 <X className="w-6 h-6" />
               ) : (
@@ -261,6 +342,7 @@ export default function NavBar() {
 
       {/* Mobile Menu Panel */}
       <div
+        ref={mobileMenuRef}
         className={`fixed top-0 right-0 bottom-0 w-full max-w-sm bg-white z-50 lg:hidden transform transition-transform duration-300 ease-out overflow-y-auto ${
           isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}>
@@ -277,7 +359,9 @@ export default function NavBar() {
           </div>
           <button
             onClick={toggleMobileMenu}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200">
+            className="p-2 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#990100] rounded-lg transition-colors duration-200"
+            aria-label="Close menu"
+            tabIndex={isMobileMenuOpen ? 0 : -1}>
             <X className="w-6 h-6 text-gray-700" />
           </button>
         </div>
@@ -292,14 +376,19 @@ export default function NavBar() {
                 <div className="flex items-center justify-between">
                   <a
                     href={item.path}
-                    onClick={() => !item.submenu && toggleMobileMenu()}
-                    className="flex-1 py-3 text-base font-semibold text-gray-900 hover:text-[#990100] transition-colors duration-200">
+                    onClick={(e) => handleMenuItemClick(e, item)}
+                    data-mobile-menu-item={index === 0 ? "first" : undefined}
+                    className="flex-1 py-3 text-base font-semibold text-gray-900 hover:text-[#990100] focus:text-[#990100] focus:outline-none focus:ring-2 focus:ring-[#990100] focus:ring-inset rounded-lg transition-colors duration-200"
+                    tabIndex={isMobileMenuOpen ? 0 : -1}>
                     {item.title}
                   </a>
                   {item.submenu && (
                     <button
                       onClick={() => toggleSubmenu(index)}
-                      className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200">
+                      className="p-2 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#990100] rounded-lg transition-colors duration-200"
+                      tabIndex={isMobileMenuOpen ? 0 : -1}
+                      aria-expanded={activeSubmenu === index}
+                      aria-controls={`submenu-${index}`}>
                       <ChevronDown
                         className={`w-5 h-5 text-gray-600 transition-transform duration-300 ${
                           activeSubmenu === index ? "rotate-180" : ""
@@ -312,6 +401,7 @@ export default function NavBar() {
                 {/* Mobile Submenu */}
                 {item.submenu && (
                   <ul
+                    id={`submenu-${index}`}
                     className={`ml-4 space-y-1 overflow-hidden transition-all duration-300 ${
                       activeSubmenu === index
                         ? "max-h-96 opacity-100 pb-3"
@@ -322,7 +412,8 @@ export default function NavBar() {
                         <a
                           href={subItem.subpath}
                           onClick={toggleMobileMenu}
-                          className="block py-2 px-3 text-sm text-gray-600 hover:text-[#990100] hover:bg-red-50 rounded-lg transition-colors duration-200">
+                          className="block py-2 px-3 text-sm text-gray-600 hover:text-[#990100] hover:bg-red-50 focus:text-[#990100] focus:bg-red-50 focus:outline-none rounded-lg transition-colors duration-200"
+                          tabIndex={activeSubmenu === index ? 0 : -1}>
                           {subItem.title}
                         </a>
                       </li>
@@ -337,7 +428,8 @@ export default function NavBar() {
           <a
             href="/contact"
             onClick={toggleMobileMenu}
-            className="mt-6 flex items-center justify-center gap-2 w-full px-6 py-4 bg-[#990100] text-white rounded-lg font-bold hover:bg-[#7a0000] transition-colors duration-300">
+            className="mt-6 flex items-center justify-center gap-2 w-full px-6 py-4 bg-[#990100] text-white rounded-lg font-bold hover:bg-[#7a0000] focus:bg-[#7a0000] focus:outline-none focus:ring-2 focus:ring-[#990100] focus:ring-offset-2 transition-colors duration-300"
+            tabIndex={isMobileMenuOpen ? 0 : -1}>
             Free Consultation
             <ChevronRight className="w-4 h-4" />
           </a>
@@ -346,7 +438,8 @@ export default function NavBar() {
           <div className="mt-6 pt-6 border-t border-gray-200 space-y-3">
             <a
               href={`tel:${phoneNumber}`}
-              className="flex items-center gap-3 text-gray-600 hover:text-[#990100] transition-colors duration-200">
+              className="flex items-center gap-3 text-gray-600 hover:text-[#990100] focus:text-[#990100] focus:outline-none focus:ring-2 focus:ring-[#990100] rounded-lg p-2 transition-colors duration-200"
+              tabIndex={isMobileMenuOpen ? 0 : -1}>
               <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
                 <Phone className="w-5 h-5" />
               </div>
@@ -357,7 +450,8 @@ export default function NavBar() {
             </a>
             <a
               href="mailto:info@legaltech.com"
-              className="flex items-center gap-3 text-gray-600 hover:text-[#990100] transition-colors duration-200">
+              className="flex items-center gap-3 text-gray-600 hover:text-[#990100] focus:text-[#990100] focus:outline-none focus:ring-2 focus:ring-[#990100] rounded-lg p-2 transition-colors duration-200"
+              tabIndex={isMobileMenuOpen ? 0 : -1}>
               <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
                 <Mail className="w-5 h-5" />
               </div>

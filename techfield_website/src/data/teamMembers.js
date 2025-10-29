@@ -1,0 +1,86 @@
+export const teamMembers = [
+  {
+    id: 1,
+    name: "Sarah Mitchell",
+    role: "Founding Partner",
+    specialty: "Corporate & Business Law",
+    image:
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1200&h=1200&fit=crop&q=80",
+    bio: "Passionate about helping startups and small businesses navigate legal challenges with strategic corporate guidance.",
+    education: "Harvard Law School, JD",
+    barAdmissions: ["New York", "California"],
+    achievements: [
+      "50+ startups assisted with legal formation",
+      "Expert in regulatory compliance",
+      "Strategic business advisory",
+    ],
+    expertise: [
+      "Business Formation",
+      "Corporate Contracts",
+      "Regulatory Compliance",
+    ],
+    email: "sarah@modernlawfirm.com",
+    linkedin: "#",
+  },
+  {
+    id: 2,
+    name: "David Chen",
+    role: "Technology Partner",
+    specialty: "Tech & Intellectual Property",
+    image:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=1200&h=1200&fit=crop&q=80",
+    bio: "Combining legal expertise with technical background to protect and scale digital innovations.",
+    education: "Stanford Law School, JD",
+    barAdmissions: ["California"],
+    achievements: [
+      "Protected 30+ tech innovations",
+      "Digital rights and IP strategy",
+      "Tech startup mentorship",
+    ],
+    expertise: ["IP Protection", "Tech Contracts", "Data Privacy"],
+    email: "david@modernlawfirm.com",
+    linkedin: "#",
+  },
+  {
+    id: 3,
+    name: "Maria Rodriguez",
+    role: "Legal Partner",
+    specialty: "Employment Law",
+    image:
+      "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=1200&h=1200&fit=crop&q=80",
+    bio: "Dedicated to creating fair workplaces and protecting employee rights through comprehensive legal strategies.",
+    education: "Yale Law School, JD",
+    barAdmissions: ["New York"],
+    achievements: [
+      "Workplace compliance architecture",
+      "HR policy development",
+      "Employment dispute resolution",
+    ],
+    expertise: ["Employment Contracts", "Workplace Compliance", "HR Advisory"],
+    email: "maria@modernlawfirm.com",
+    linkedin: "#",
+  },
+  {
+    id: 4,
+    name: "James Taylor",
+    role: "Legal Partner",
+    specialty: "Commercial Law",
+    image:
+      "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=1200&h=1200&fit=crop&q=80",
+    bio: "Focused on helping businesses achieve growth through solid legal foundations and strategic agreements.",
+    education: "Columbia Law School, JD",
+    barAdmissions: ["New York"],
+    achievements: [
+      "Commercial agreement structuring",
+      "Business negotiation expertise",
+      "Growth strategy legal support",
+    ],
+    expertise: [
+      "Commercial Agreements",
+      "Business Negotiations",
+      "Corporate Growth",
+    ],
+    email: "james@modernlawfirm.com",
+    linkedin: "#",
+  },
+];
