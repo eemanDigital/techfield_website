@@ -19,33 +19,18 @@ import {
   Zap,
   Users,
 } from "lucide-react";
+import { offices } from "@/data/info";
 
-const officeLocations = [
-  {
-    city: "New York",
-    address: "125 Park Avenue, Suite 2500",
-    zip: "New York, NY 10017",
-    phone: "+1 (212) 555-0100",
-    email: "newyork@legaltech.com",
-    hours: "Mon-Fri: 9AM-6PM EST",
-  },
-  {
-    city: "San Francisco",
-    address: "555 California Street, 10th Floor",
-    zip: "San Francisco, CA 94104",
-    phone: "+1 (415) 555-0200",
-    email: "sf@legaltech.com",
-    hours: "Mon-Fri: 9AM-6PM PST",
-  },
-  {
-    city: "Washington DC",
-    address: "1800 K Street NW, Suite 900",
-    zip: "Washington, DC 20006",
-    phone: "+1 (202) 555-0300",
-    email: "dc@legaltech.com",
-    hours: "Mon-Fri: 9AM-6PM EST",
-  },
-];
+// const officeLocations = [
+//   {
+//     city: offices[0].city,
+//     address: offices[0].address,
+//     zip: offices[0].zip,
+//     phone: offices[0].phone,
+//     email:
+//   },
+
+// ];
 
 const practiceAreas = [
   "Corporate Law",
@@ -554,7 +539,7 @@ export default function ContactPage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {officeLocations.map((office, i) => (
+            {offices.map((office, i) => (
               <div
                 key={i}
                 className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-white/20 transition-all duration-300">

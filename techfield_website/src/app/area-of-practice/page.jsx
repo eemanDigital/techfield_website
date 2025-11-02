@@ -41,7 +41,9 @@ function ModernBackground() {
 
 export default function PracticeAreas() {
   return (
-    <div className="min-h-screen bg-white relative overflow-hidden">
+    <div
+      className="min-h-screen bg-white relative overflow-hidden"
+      id="area-of-areas">
       <ModernBackground />
 
       <div className="relative z-10">

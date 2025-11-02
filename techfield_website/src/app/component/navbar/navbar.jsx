@@ -16,6 +16,7 @@ import {
   logoInitials,
   logoTagline,
 } from "@/data/info";
+import { useRouter } from "next/navigation";
 
 const menuItems = [
   {
@@ -24,7 +25,7 @@ const menuItems = [
   },
   {
     title: "Practice Areas",
-    path: "/area-of-areas",
+    path: "/#area-of-areas",
     // submenu: [
     //   { title: "Corporate Law", subpath: "/practice-area/corporate" },
     //   { title: "Litigation", subpath: "/practice-area/litigation" },
@@ -44,7 +45,7 @@ const menuItems = [
   // },
   {
     title: "blog",
-    path: "/blog/all-news",
+    path: "/#blog",
     // submenu: [
     //   { title: "Blog & Insights", subpath: "/blog" },
     //   { title: "Case Studies", subpath: "/case-studies" },
@@ -64,6 +65,8 @@ export default function NavBar() {
   const [activeSubmenu, setActiveSubmenu] = useState(null);
   const [hoveredItem, setHoveredItem] = useState(null);
   const mobileMenuRef = useRef(null);
+
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -126,30 +129,56 @@ export default function NavBar() {
     setActiveSubmenu(activeSubmenu === index ? null : index);
   };
 
-  const handleAnchorClick = (e, path) => {
+  // const handleAnchorClick = (e, path) => {
+
+  //   if (path.includes("#")) {
+  //     e.preventDefault();
+  //     const targetId = path.split("#")[1];
+  //     const targetElement = document.getElementById(targetId);
+
+  //     if (targetElement) {
+  //       // Close mobile menu if open
+  //       if (isMobileMenuOpen) {
+  //         toggleMobileMenu();
+  //       }
+
+  //       // Smooth scroll to target
+  //       targetElement.scrollIntoView({
+  //         behavior: "smooth",
+  //         block: "start",
+  //       });
+
+  //       // Focus the target for accessibility
+  //       setTimeout(() => {
+  //         targetElement.setAttribute("tabindex", "-1");
+  //         targetElement.focus();
+  //       }, 1000);
+  //     }
+  //   }
+  // };
+
+  const handleAnchorClick = async (e, path) => {
     if (path.includes("#")) {
       e.preventDefault();
-      const targetId = path.split("#")[1];
-      const targetElement = document.getElementById(targetId);
+      const [basePath, hash] = path.split("#");
 
-      if (targetElement) {
-        // Close mobile menu if open
-        if (isMobileMenuOpen) {
-          toggleMobileMenu();
-        }
-
-        // Smooth scroll to target
-        targetElement.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-
-        // Focus the target for accessibility
-        setTimeout(() => {
+      if (basePath && basePath !== window.location.pathname) {
+        // Navigate to base page first (e.g., go to "/")
+        router.push(`/${hash ? `#${hash}` : ""}`);
+      } else {
+        const targetElement = document.getElementById(hash);
+        if (targetElement) {
+          targetElement.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+          // focus for accessibility
           targetElement.setAttribute("tabindex", "-1");
           targetElement.focus();
-        }, 1000);
+        }
       }
+      // Close mobile menu if open
+      if (isMobileMenuOpen) toggleMobileMenu();
     }
   };
 

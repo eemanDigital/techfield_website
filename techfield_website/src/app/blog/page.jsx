@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+
 import { ArrowRight, TrendingUp, Sparkles } from "lucide-react";
 import HeaderText from "../component/HeaderText";
 import ArticleCard from "../component/ArticleCard";
@@ -28,7 +28,7 @@ export default function BlogPage({ blogPosts }) {
   const postsToShow = featuredPosts?.length > 0 ? featuredPosts : latestPosts;
 
   return (
-    <div className="min-h-screen bg-white relative">
+    <div className="min-h-screen bg-white relative" id="blog">
       <GeometricBackground />
 
       {/* Hero Section */}
